@@ -39,9 +39,8 @@ app.get('/dbs', (req, res) => {
     mongoose.connect(db, {   
       useNewUrlParser: true,
       useUnifiedTopology: true
-     }
-     ).then(console.log("connected"))
-  )
+     })
+  ).then(console.log("connected"));
 
 })
 app.get('/data', cors(), function(req, res) {
