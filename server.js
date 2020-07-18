@@ -7,25 +7,27 @@ const bodyParser = require('body-parser')
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+
+
+
+const mongoDB = 'mongodb+srv://expodev:expodev123@payflex.d7ybj.mongodb.net/sample_airbnb?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, {   useNewUrlParser: true,
+useUnifiedTopology: true }).then(console.log("connected"));
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+const Schema = mongoose.Schema;
 
 const schemaName = new Schema({
   request: String,
   time: Number
 }, {
-  collection: 'accounts'
+  collection: 'listingsAndReviews'
 });
-
 const Model = mongoose.model('Model', schemaName);
-
-const mongoDB = 'mongodb+srv://expodev:expodev123@payflex.d7ybj.mongodb.net/sample_weatherdata?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, {   useNewUrlParser: true,
-useUnifiedTopology: true }).then(console.log("connected"));
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 
 
 app.get('/text', (req, res) => {
