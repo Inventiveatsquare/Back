@@ -11,18 +11,18 @@ app.use(bodyParser.json())
 
 
 
-app.get('/api/get', (req, res) => {
+app.get('/get', (req, res) => {
   res.send('Welcome Tp Express Api')
 
 })
 
-app.get('/api/gets', (req, res) => {
+app.get('/gets', (req, res) => {
     res.sendFile(__dirname + '/client/index.html')
   
   })
 
 
-app.post('/api/post', (req, res) => {
+app.post('/post', (req, res) => {
   const user = {
     first_name : req.body.first_name,
     last_name : req.body.last_name,
