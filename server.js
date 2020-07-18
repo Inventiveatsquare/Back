@@ -1,44 +1,35 @@
 const express = require('express');
 const cors = require('cors');
+const app = express();
+
 const bodyParser = require('body-parser')
+
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 
-
-const app = express();
 const mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var db = 'mongodb+srv://expodev:expodev123@payflex.d7ybj.mongodb.net/sample_weatherdata?retryWrites=true&w=majority';
-mongoose.connect(db, {   
-  useNewUrlParser: true,
-  useUnifiedTopology: true
- }
- ).then(console.log("connected"));
+const Schema = mongoose.Schema;
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-
- var schemaName = new Schema({
+const schemaName = new Schema({
   request: String,
   time: Number
 }, {
   collection: 'accounts'
 });
 
-var Model = mongoose.model('Model', schemaName);
+const Model = mongoose.model('Model', schemaName);
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+const mongoDB = 'mongodb+srv://expodev:expodev123@payflex.d7ybj.mongodb.net/sample_weatherdata?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, {   useNewUrlParser: true,
+useUnifiedTopology: true }).then(console.log("connected"));
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-app.get('/', (req, res) => {
-  res.send (
-    mongoose.connect(db, {   
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-     })
-  ).then(console.log("connected"));
 
-})
-app.get('/get', (req, res) => {
-  res.send('Welcome Tp Express Api')
+app.get('/text', (req, res) => {
+  res.send('fdgfdgdfg')
 
 })
 
@@ -60,12 +51,6 @@ app.get('/data', cors(), function(req, res) {
   })
 })
 
-app.get('/gets', (req, res) => {
-    res.sendFile(__dirname + '/client/index.html')
-  
-  })
-
-
 app.post('/post', (req, res) => {
   const user = {
     first_name : req.body.first_name,
@@ -74,14 +59,15 @@ app.post('/post', (req, res) => {
     password: req.body.password
 
   }
-  console.log(user);
-  //console.log('Got body:', req.body);
-  res.sendStatus(200);
-});
+   console.log('Got body:', req.body);
+  res.sendStatus(200)
+})
+
 
 const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
+
 app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Something broke!');
