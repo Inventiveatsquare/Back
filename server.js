@@ -28,13 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
-
-app.get('/get', (req, res) => {
-  res.send('Welcome Tp Express Api')
-
-})
-
-app.get('/dbs', (req, res) => {
+app.get('/', (req, res) => {
   res.send (
     mongoose.connect(db, {   
       useNewUrlParser: true,
@@ -43,6 +37,12 @@ app.get('/dbs', (req, res) => {
   ).then(console.log("connected"));
 
 })
+app.get('/get', (req, res) => {
+  res.send('Welcome Tp Express Api')
+
+})
+
+
 app.get('/data', cors(), function(req, res) {
   var query = req.params.query;
 
