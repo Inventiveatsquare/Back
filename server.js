@@ -31,7 +31,15 @@ app.post("/person", async (request, response) => {
       response.status(500).send(error);
   }
 })
-
+app.get("/person", async (request, response) => {
+  try {
+      var result = await PersonModel.find().exec();
+      response.send(result);
+      console.log("data fatched")
+  } catch (error) {
+      response.status(500).send(error);
+  }
+});
 
 app.get('/text', (req, res) => {
   res.send('fdgfdgdfg')
